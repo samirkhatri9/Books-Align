@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700;800&family=Public+Sans:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0a1b29;
+  --color-primary-container: #20303f;
+  --color-on-primary: #ffffff;
+  --color-on-primary-fixed-variant: #1e2d3a;
+
+  --color-secondary: #556065;
+  --color-secondary-container: #d6e2e8;
+  --color-on-secondary-container: #59646a;
+
+  --color-tertiary-fixed: #efe1c5;
+
+  --color-background: #fff9ec;
+  --color-surface: #fff9ec;
+  --color-surface-container: #f3ede0;
+  --color-surface-container-low: #f9f3e6;
+  --color-surface-container-high: #eee8db;
+  --color-surface-variant: #e8e2d5;
+
+  --color-outline: #74777c;
+  --color-outline-variant: #c4c6cc;
+
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+
+  --color-on-surface: #1d1c14;
+  --color-on-surface-variant: #43474c;
+
+  --font-headline: 'Work Sans', sans-serif;
+  --font-body: 'Public Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #fff9ec;
+  color: #1d1c14;
+  font-family: 'Public Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Work Sans', sans-serif;
+  margin: 0;
+}
+
+p { margin: 0; }
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}

@@ -1,0 +1,10 @@
+# Backend placeholder — Node/Express/MongoDB server will be built here.
+# Planned structure:
+# backend/
+# ├── config/          # DB connection (mongoose), env config
+# ├── controllers/     # Route handler logic (contactController, etc.)
+# ├── models/          # Mongoose schemas (Contact, Inquiry, etc.)
+# ├── routes/          # Express routers (api/contact, api/auth, etc.)
+# ├── middleware/      # Auth, validation, error handling
+# ├── utils/           # Email (nodemailer), helpers
+# └── server.js        # Express app entry point
