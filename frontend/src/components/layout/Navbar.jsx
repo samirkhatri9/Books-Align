@@ -47,13 +47,6 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
-          <a
-            href="#"
-            className="text-sm font-semibold no-underline transition-opacity hover:opacity-70"
-            style={{ color: '#0a1b29' }}
-          >
-            Client Login
-          </a>
           <Link
             to="/contact"
             className="px-5 py-2.5 rounded-lg text-sm font-semibold no-underline transition-opacity hover:opacity-90 active:scale-95"
@@ -92,9 +85,6 @@ export default function Navbar() {
             </NavLink>
           ))}
           <div className="flex flex-col gap-3 pt-2">
-            <a href="#" className="text-sm font-semibold no-underline text-center py-2.5 rounded-lg" style={{ color: '#0a1b29', border: '1px solid #c4c6cc' }}>
-              Client Login
-            </a>
             <Link
               to="/contact"
               onClick={() => setMenuOpen(false)}
