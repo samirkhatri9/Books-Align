@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Books Align — Full Build Plan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700;800&family=Public+Sans:wght@400;600;700&display=swap');
+
+  :root {
+    --navy:   #f0f0f0;
+    --navy2:  #1e1e1e;
+    --cream:  #141414;
+    --cream2: #1a1a1a;
+    --cream3: #222222;
+    --border: #333333;
+    --muted:  #aaaaaa;
+    --label:  #888888;
+    --sky:    #2a2a2a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Public Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    background: #0f0f0f;
+    color: #e8e8e8;
+    padding: 48px 64px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* ── Cover ── */
+  .cover {
+    border: 2px solid #2e2e2e;
+    border-radius: 12px;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 52px 48px;
+    margin-bottom: 48px;
+    page-break-after: always;
+  }
+  .cover-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.85);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 99px;
+    margin-bottom: 20px;
+  }
+  .cover h1 {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .cover p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.75);
+    max-width: 500px;
+    line-height: 1.7;
+  }
+  .cover-meta {
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .cover-meta-item label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 4px;
+  }
+  .cover-meta-item span {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+  }
+
+  /* ── Section headings ── */
+  h2 {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #f0f0f0;
+    margin: 40px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #2a2a2a;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #000000;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  h3 {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #e8e8e8;
+    margin: 24px 0 10px;
+  }
+
+  p { margin-bottom: 10px; color: #aaaaaa; }
+
+  /* ── Info cards ── */
+  .card {
+    background: #1a1a1a;
+    border: 1px solid #2e2e2e;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .card-dark {
+    background: #1e1e1e;
+    border: 1px solid #333333;
+    color: #e8e8e8;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .card-dark p { color: #aaaaaa; margin: 0; }
+  .card-dark h3 { color: #f0f0f0; margin-top: 0; }
+
+  /* ── Decision chips ── */
+  .decisions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .chip-green  { background: #1e2e1e; color: #7dbb7d; border: 1px solid #2e4a2e; }
+  .chip-blue   { background: #1a2030; color: #7ab0d4; border: 1px solid #253050; }
+  .chip-sand   { background: #222222; color: #cccccc; border: 1px solid #333333; }
+
+  /* ── File tree ── */
+  pre {
+    background: #161616;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.75;
+    color: #cccccc;
+    overflow-x: auto;
+    margin-bottom: 16px;
+    white-space: pre;
+  }
+
+  /* ── Flow diagram (CSS-only) ── */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 24px;
+  }
+  .flow-row {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr 40px 1fr;
+    align-items: center;
+    gap: 0;
+  }
+  .flow-box {
+    background: var(--cream2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    color: var(--navy);
+  }
+  .flow-box.dark { background: var(--navy2); color: #fff; border-color: var(--navy2); }
+  .flow-box.sky  { background: var(--sky); color: var(--label); }
+  .flow-arrow {
+    text-align: center;
+    font-size: 18px;
+    color: var(--border);
+    font-weight: 700;
+  }
+  .flow-step-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--label);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .flow-connector {
+    display: flex;
+    justify-content: center;
+    padding: 4px 0;
+    color: var(--border);
+    font-size: 18px;
+  }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+  th {
+    background: #1e1e1e;
+    color: #f0f0f0;
+    font-weight: 700;
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    border-bottom: 1px solid #333333;
+  }
+  th:first-child { border-radius: 8px 0 0 0; }
+  th:last-child  { border-radius: 0 8px 0 0; }
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #222222;
+    color: #aaaaaa;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #161616; }
+  td code, th code { font-family: 'Courier New', monospace; font-size: 11px; background: #2a2a2a; color: #cccccc; padding: 1px 5px; border-radius: 3px; }
+  td strong { color: #e8e8e8; }
+
+  /* ── Roadmap ── */
+  .roadmap { display: flex; flex-direction: column; gap: 0; margin-bottom: 24px; }
+  .roadmap-item {
+    display: flex;
+    gap: 16px;
+    position: relative;
+  }
+  .roadmap-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 16px;
+    top: 36px;
+    bottom: 0;
+    width: 2px;
+    background: #2e2e2e;
+  }
+  .roadmap-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #000000;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .roadmap-body {
+    padding-bottom: 24px;
+    flex: 1;
+  }
+  .roadmap-title {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #e8e8e8;
+    margin-bottom: 4px;
+  }
+  .roadmap-desc {
+    font-size: 12.5px;
+    color: #aaaaaa;
+    line-height: 1.6;
+  }
+  .roadmap-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .rtag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 99px;
+    letter-spacing: 0.04em;
+  }
+  .rtag-be     { background: #1e2a1e; color: #7dbb7d; border: 1px solid #2a3e2a; }
+  .rtag-fe     { background: #1a2030; color: #7ab0d4; border: 1px solid #253050; }
+  .rtag-both   { background: #2a1e30; color: #c090e0; border: 1px solid #3e2a50; }
+  .rtag-deploy { background: #2e2a18; color: #d4b86a; border: 1px solid #4a4020; }
+
+  /* ── Packages ── */
+  .pkg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .pkg-box { background: #1a1a1a; border: 1px solid #2e2e2e; border-radius: 8px; padding: 16px 18px; }
+  .pkg-box h4 { font-family: 'Work Sans', sans-serif; font-size: 13px; font-weight: 700; color: #e8e8e8; margin-bottom: 10px; }
+  .pkg-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .pkg-list li { font-size: 12px; color: #aaaaaa; display: flex; align-items: flex-start; gap: 6px; }
+  .pkg-list li::before { content: '›'; color: #666666; font-weight: 700; flex-shrink: 0; }
+
+  /* ── Services & Accounts ── */
+  .accounts-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
+  .account-card {
+    background: #1a1a1a;
+    border: 1px solid #2e2e2e;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 12px;
+    color: #aaaaaa;
+  }
+  .account-card strong { display: block; font-size: 13px; color: #e8e8e8; margin-bottom: 4px; }
+
+  /* ── Flow boxes dark ── */
+  .flow-box { background: #1e1e1e; border: 1px solid #333333; color: #e8e8e8; }
+  .flow-box.dark { background: #2a2a2a; color: #f0f0f0; border-color: #444444; }
+  .flow-box.sky  { background: #1a2030; color: #7ab0d4; border-color: #253050; }
+  .flow-arrow { color: #444444; }
+  .flow-step-label { color: #666666; }
+
+  /* ── Footer ── */
+  body > div:last-child { border-top-color: #2a2a2a !important; color: #555555 !important; }
+
+  /* ── Print ── */
+  @media print {
+    body { padding: 24px 32px; background: #0f0f0f; }
+    .cover { page-break-after: always; }
+    h2 { page-break-before: auto; }
+    pre, table, .roadmap-item { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-tag">Confidential · Internal Build Plan</div>
+  <h1>Books Align<br>Full-Stack Build Plan</h1>
+  <p>Complete architecture, development roadmap, and integration guide for the Books Align NDIS accounting website — React frontend to production-ready Node.js backend.</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <label>Project</label>
+      <span>Books Align Website</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Client</label>
+      <span>Books Align (Nepal · Australia)</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Date</label>
+      <span>May 2026</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Stack</label>
+      <span>React 19 · Node.js · MongoDB · Google APIs</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Deploy</label>
+      <span>Render → Hostinger</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- 1. PROJECT OVERVIEW -->
+<h2><span class="num">1</span> Project Overview</h2>
+<p>Books Align is a Nepal-based accounting firm specialising in NDIS (National Disability Insurance Scheme) financial services for Australian providers. This document covers the full build plan for their professional website — from the already-complete React frontend through to a production-ready Express/MongoDB backend with Google OAuth, booking management, and an admin dashboard.</p>
+
+<div class="decisions">
+  <span class="chip chip-green">✓ Custom Google Meet booking flow</span>
+  <span class="chip chip-blue">✓ Separate /admin dashboard route</span>
+  <span class="chip chip-sand">✓ Render deploy → Hostinger production</span>
+</div>
+
+<h3>What Is Already Built</h3>
+<table>
+  <tr><th>Item</th><th>Status</th><th>Notes</th></tr>
+  <tr><td><strong>Home page</strong></td><td>✅ Complete</td><td>Hero, trust strip, services overview, why section, CTA</td></tr>
+  <tr><td><strong>Services page</strong></td><td>✅ Complete</td><td>Featured plan management card + 4 service cards</td></tr>
+  <tr><td><strong>Why Us page</strong></td><td>✅ Complete</td><td>Bento grid, testimonials, tool chips</td></tr>
+  <tr><td><strong>Contact page</strong></td><td>⚠️ Placeholder</td><td>Form UI done; API call is a fake setTimeout; booking is Calendly placeholder</td></tr>
+  <tr><td><strong>Navbar + Footer</strong></td><td>✅ Complete</td><td>Sticky nav, mobile hamburger, full footer</td></tr>
+  <tr><td><strong>Design system</strong></td><td>✅ Complete</td><td>Compassionate Clarity theme in index.css (Tailwind v4 @theme)</td></tr>
+  <tr><td><strong>Backend</strong></td><td>❌ Empty</td><td>Folder exists; only a .gitkeep inside</td></tr>
+</table>
+
+<h3>What Needs to Be Built</h3>
+<table>
+  <tr><th>Item</th><th>Type</th><th>Priority</th></tr>
+  <tr><td>Express server + security middleware stack</td><td>Backend</td><td>1 — Foundation</td></tr>
+  <tr><td>Contact form API (POST /api/contact)</td><td>Backend + Frontend</td><td>2 — Core feature</td></tr>
+  <tr><td>Google OAuth + JWT auth module</td><td>Backend + Frontend</td><td>3 — Auth gate</td></tr>
+  <tr><td>Google Calendar booking + Meet link generation</td><td>Backend + Frontend</td><td>4 — Core feature</td></tr>
+  <tr><td>Admin module (CRUD for contacts + bookings)</td><td>Backend</td><td>5 — Operations</td></tr>
+  <tr><td>/admin React route + dashboard + tables</td><td>Frontend</td><td>6 — Operations</td></tr>
+  <tr><td>Swagger API documentation</td><td>Backend</td><td>7 — Docs</td></tr>
+  <tr><td>Render deployment + env config</td><td>DevOps</td><td>8 — Deploy</td></tr>
+</table>
+
+
+<!-- 2. TECH STACK -->
+<h2><span class="num">2</span> Technology Stack</h2>
+
+<div class="pkg-grid">
+  <div class="pkg-box">
+    <h4>Frontend (already installed)</h4>
+    <ul class="pkg-list">
+      <li>React 19 + Vite 8</li>
+      <li>React Router DOM v7</li>
+      <li>Tailwind CSS v4</li>
+      <li>Material Symbols (Google icons)</li>
+      <li>Work Sans + Public Sans (Google Fonts)</li>
+    </ul>
+  </div>
+  <div class="pkg-box">
+    <h4>Frontend (to add)</h4>
+    <ul class="pkg-list">
+      <li>axios — HTTP client for API calls</li>
+    </ul>
+  </div>
+  <div class="pkg-box">
+    <h4>Backend — Core</h4>
+    <ul class="pkg-list">
+      <li>Node.js + Express.js</li>
+      <li>MongoDB Atlas + Mongoose</li>
+      <li>Passport.js + passport-google-oauth20</li>
+      <li>jsonwebtoken (JWT)</li>
+      <li>cookie-parser + express-session</li>
+      <li>googleapis (Calendar API)</li>
+      <li>Nodemailer (email)</li>
+      <li>Zod (validation)</li>
+      <li>dotenv</li>
+    </ul>
+  </div>
+  <div class="pkg-box">
+    <h4>Backend — Security &amp; Logging</h4>
+    <ul class="pkg-list">
+      <li>helmet (HTTP headers)</li>
+      <li>express-rate-limit</li>
+      <li>cors</li>
+      <li>express-mongo-sanitize</li>
+      <li>xss-clean (XSS protection)</li>
+      <li>hpp (HTTP parameter pollution)</li>
+      <li>winston (structured logging)</li>
+      <li>morgan (HTTP request logs)</li>
+      <li>swagger-ui-express + swagger-jsdoc</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- 3. BACKEND FOLDER STRUCTURE -->
+<h2><span class="num">3</span> Backend Folder Structure</h2>
+<pre>backend/
+├── src/
+│   ├── config/
+│   │   ├── db.js                  # Mongoose connect + retry logic
+│   │   ├── passport.js            # Google OAuth strategy configuration
+│   │   └── env.js                 # Zod schema — validates all env vars on startup
+│   │
+│   ├── modules/
+│   │   ├── auth/
+│   │   │   ├── auth.routes.js     # GET /api/auth/google
+│   │   │   │                      # GET /api/auth/google/callback
+│   │   │   │                      # POST /api/auth/logout
+│   │   │   │                      # GET /api/auth/me
+│   │   │   ├── auth.controller.js
+│   │   │   └── auth.service.js    # JWT sign/verify, cookie management
+│   │   │
+│   │   ├── contact/
+│   │   │   ├── contact.routes.js      # POST /api/contact
+│   │   │   ├── contact.controller.js
+│   │   │   ├── contact.service.js     # Save to DB + trigger email
+│   │   │   ├── contact.model.js       # Mongoose schema
+│   │   │   └── contact.validation.js  # Zod request schema
+│   │   │
+│   │   ├── booking/
+│   │   │   ├── booking.routes.js      # GET /api/booking/slots
+│   │   │   │                          # POST /api/booking
+│   │   │   │                          # GET /api/booking/my
+│   │   │   │                          # DELETE /api/booking/:id
+│   │   │   ├── booking.controller.js
+│   │   │   ├── booking.service.js     # Google Calendar API logic
+│   │   │   ├── booking.model.js       # Mongoose schema
+│   │   │   └── booking.validation.js
+│   │   │
+│   │   └── admin/
+│   │       ├── admin.routes.js        # GET /api/admin/contacts
+│   │       │                          # GET /api/admin/bookings
+│   │       │                          # PATCH /api/admin/contacts/:id
+│   │       │                          # PATCH /api/admin/bookings/:id
+│   │       │                          # DELETE /api/admin/contacts/:id
+│   │       │                          # DELETE /api/admin/bookings/:id
+│   │       │                          # POST /api/admin/login
+│   │       ├── admin.controller.js
+│   │       └── admin.middleware.js    # isAdmin JWT guard
+│   │
+│   ├── middleware/
+│   │   ├── auth.middleware.js     # verifyToken — attach req.user
+│   │   ├── validate.middleware.js # Zod wrapper for req.body/query
+│   │   ├── error.middleware.js    # Global error handler
+│   │   └── ratelimit.middleware.js # Rate limit configs per route group
+│   │
+│   ├── services/
+│   │   ├── email.service.js       # Nodemailer — contact + booking confirmation emails
+│   │   └── logger.service.js      # Winston instance + Morgan stream
+│   │
+│   ├── utils/
+│   │   ├── asyncHandler.js        # Wraps async controllers to catch errors
+│   │   └── ApiError.js            # Standardised error class with status codes
+│   │
+│   └── docs/
+│       └── swagger.js             # Swagger/OpenAPI 3.0 configuration
+│
+├── server.js                      # App entry — middleware stack + route mounting
+├── .env.example                   # Template for all required env vars
+└── package.json</pre>
+
+
+<!-- 4. DATABASE SCHEMAS -->
+<h2><span class="num">4</span> Database Schemas (MongoDB)</h2>
+
+<h3>Users Collection</h3>
+<table>
+  <tr><th>Field</th><th>Type</th><th>Notes</th></tr>
+  <tr><td><code>googleId</code></td><td>String</td><td>From Google OAuth profile, unique</td></tr>
+  <tr><td><code>email</code></td><td>String</td><td>Unique, required</td></tr>
+  <tr><td><code>name</code></td><td>String</td><td>Display name from Google</td></tr>
+  <tr><td><code>picture</code></td><td>String</td><td>Google profile photo URL</td></tr>
+  <tr><td><code>role</code></td><td>Enum</td><td>'user' | 'admin', default 'user'</td></tr>
+  <tr><td><code>createdAt</code></td><td>Date</td><td>Auto timestamp</td></tr>
+</table>
+
+<h3>Contacts Collection</h3>
+<table>
+  <tr><th>Field</th><th>Type</th><th>Notes</th></tr>
+  <tr><td><code>name</code></td><td>String</td><td>Required</td></tr>
+  <tr><td><code>businessName</code></td><td>String</td><td>Optional</td></tr>
+  <tr><td><code>email</code></td><td>String</td><td>Required</td></tr>
+  <tr><td><code>phone</code></td><td>String</td><td>Optional</td></tr>
+  <tr><td><code>service</code></td><td>Enum</td><td>One of 6 service options</td></tr>
+  <tr><td><code>message</code></td><td>String</td><td>Required</td></tr>
+  <tr><td><code>status</code></td><td>Enum</td><td>'new' | 'read' | 'responded', default 'new'</td></tr>
+  <tr><td><code>createdAt</code></td><td>Date</td><td>Auto timestamp</td></tr>
+</table>
+
+<h3>Bookings Collection</h3>
+<table>
+  <tr><th>Field</th><th>Type</th><th>Notes</th></tr>
+  <tr><td><code>userId</code></td><td>ObjectId → User</td><td>Required, who booked</td></tr>
+  <tr><td><code>userName</code></td><td>String</td><td>Denormalised for admin view</td></tr>
+  <tr><td><code>userEmail</code></td><td>String</td><td>Denormalised for email sending</td></tr>
+  <tr><td><code>startTime</code></td><td>Date</td><td>Booking start (UTC)</td></tr>
+  <tr><td><code>endTime</code></td><td>Date</td><td>Booking end (UTC, start + 30 min)</td></tr>
+  <tr><td><code>googleEventId</code></td><td>String</td><td>Calendar event ID for cancellation</td></tr>
+  <tr><td><code>meetLink</code></td><td>String</td><td>Google Meet URL</td></tr>
+  <tr><td><code>status</code></td><td>Enum</td><td>'confirmed' | 'cancelled', default 'confirmed'</td></tr>
+  <tr><td><code>createdAt</code></td><td>Date</td><td>Auto timestamp</td></tr>
+</table>
+
+
+<!-- 5. GOOGLE MEET BOOKING FLOW -->
+<h2><span class="num">5</span> Google Meet Booking Flow</h2>
+<p>The booking system uses Google OAuth to authenticate users, Google Calendar API to check availability and create events, and automatically generates a Google Meet link for each confirmed booking.</p>
+
+<div class="card-dark">
+  <h3>Required Google API Scopes</h3>
+  <p><code>https://www.googleapis.com/auth/calendar.events</code> — create and manage calendar events<br>
+  <code>profile email openid</code> — standard OAuth identity scopes</p>
+</div>
+
+<h3>Step-by-Step Flow</h3>
+<table>
+  <tr><th>Step</th><th>Actor</th><th>Action</th></tr>
+  <tr><td>1</td><td>User</td><td>Clicks "Book a Time" on the Contact page</td></tr>
+  <tr><td>2</td><td>Frontend</td><td>Checks AuthContext — if not logged in, redirects to <code>GET /api/auth/google</code></td></tr>
+  <tr><td>3</td><td>Backend</td><td>Passport redirects to Google OAuth consent screen with <code>calendar.events</code> scope</td></tr>
+  <tr><td>4</td><td>Google</td><td>User grants permission; Google redirects to <code>/api/auth/google/callback</code></td></tr>
+  <tr><td>5</td><td>Backend</td><td>Passport exchanges code for tokens; user saved/updated in MongoDB; JWT issued in HttpOnly cookie</td></tr>
+  <tr><td>6</td><td>Frontend</td><td>AuthContext detects session; booking widget unlocks; slot picker is displayed</td></tr>
+  <tr><td>7</td><td>Frontend</td><td>Calls <code>GET /api/booking/slots?date=YYYY-MM-DD</code> to fetch available 30-min slots</td></tr>
+  <tr><td>8</td><td>Backend</td><td>Queries Google Calendar free/busy API for the admin's calendar; returns open slots</td></tr>
+  <tr><td>9</td><td>User</td><td>Selects a slot and clicks "Confirm Booking"</td></tr>
+  <tr><td>10</td><td>Frontend</td><td>Posts <code>POST /api/booking</code> with selected slot</td></tr>
+  <tr><td>11</td><td>Backend</td><td>Double-checks slot is still free (race condition guard)</td></tr>
+  <tr><td>12</td><td>Backend</td><td>Creates Google Calendar event with <code>conferenceDataVersion: 1</code> → generates Meet link</td></tr>
+  <tr><td>13</td><td>Backend</td><td>Saves booking to MongoDB; sends confirmation emails to user and admin via Nodemailer</td></tr>
+  <tr><td>14</td><td>Frontend</td><td>Shows confirmation card with Google Meet link and datetime</td></tr>
+</table>
+
+
+<!-- 6. FRONTEND ADDITIONS -->
+<h2><span class="num">6</span> Frontend Additions</h2>
+
+<h3>New Files to Create</h3>
+<table>
+  <tr><th>File</th><th>Purpose</th></tr>
+  <tr><td><code>src/lib/api.js</code></td><td>Axios instance — base URL from env, <code>withCredentials: true</code> for cookie auth</td></tr>
+  <tr><td><code>src/context/AuthContext.jsx</code></td><td>Google auth state — user object, login(), logout(), loading state</td></tr>
+  <tr><td><code>src/pages/admin/Login.jsx</code></td><td>Admin email + password login form (separate from Google OAuth)</td></tr>
+  <tr><td><code>src/pages/admin/Dashboard.jsx</code></td><td>Admin overview — summary stats, recent contacts, upcoming bookings</td></tr>
+  <tr><td><code>src/pages/admin/ContactsTable.jsx</code></td><td>Paginated table with status filter + mark-read + delete</td></tr>
+  <tr><td><code>src/pages/admin/BookingsTable.jsx</code></td><td>Upcoming/past bookings, cancel action, Meet link display</td></tr>
+  <tr><td><code>src/components/booking/SlotPicker.jsx</code></td><td>Calendar date picker + time slot grid, shows available slots</td></tr>
+  <tr><td><code>src/components/booking/BookingConfirmation.jsx</code></td><td>Post-booking card with Meet link + add-to-calendar button</td></tr>
+</table>
+
+<h3>Files to Modify</h3>
+<table>
+  <tr><th>File</th><th>Change</th></tr>
+  <tr><td><code>src/App.jsx</code></td><td>Wrap in AuthContext provider; add <code>/admin/*</code> routes with ProtectedRoute guard</td></tr>
+  <tr><td><code>src/pages/Contact.jsx</code></td><td>Replace setTimeout with real <code>POST /api/contact</code>; replace Calendly placeholder with SlotPicker + auth gate</td></tr>
+  <tr><td><code>src/components/layout/Navbar.jsx</code></td><td>Add "Client Login" button using AuthContext; show user avatar + logout if authenticated</td></tr>
+  <tr><td><code>.env</code> (new)</td><td><code>VITE_API_URL=http://localhost:5000</code> for dev, Render URL for staging</td></tr>
+</table>
+
+
+<!-- 7. API ENDPOINTS -->
+<h2><span class="num">7</span> API Endpoints</h2>
+
+<h3>Auth</h3>
+<table>
+  <tr><th>Method</th><th>Endpoint</th><th>Auth</th><th>Description</th></tr>
+  <tr><td>GET</td><td><code>/api/auth/google</code></td><td>Public</td><td>Redirect to Google OAuth</td></tr>
+  <tr><td>GET</td><td><code>/api/auth/google/callback</code></td><td>Public</td><td>OAuth callback — issue JWT cookie</td></tr>
+  <tr><td>POST</td><td><code>/api/auth/logout</code></td><td>User</td><td>Clear JWT cookie</td></tr>
+  <tr><td>GET</td><td><code>/api/auth/me</code></td><td>User</td><td>Return current user from JWT</td></tr>
+</table>
+
+<h3>Contact</h3>
+<table>
+  <tr><th>Method</th><th>Endpoint</th><th>Auth</th><th>Description</th></tr>
+  <tr><td>POST</td><td><code>/api/contact</code></td><td>Public + reCAPTCHA</td><td>Submit contact form — save + email</td></tr>
+</table>
+
+<h3>Booking</h3>
+<table>
+  <tr><th>Method</th><th>Endpoint</th><th>Auth</th><th>Description</th></tr>
+  <tr><td>GET</td><td><code>/api/booking/slots</code></td><td>User (JWT)</td><td>Return available 30-min slots for a given date</td></tr>
+  <tr><td>POST</td><td><code>/api/booking</code></td><td>User (JWT)</td><td>Create booking + Google Meet event</td></tr>
+  <tr><td>GET</td><td><code>/api/booking/my</code></td><td>User (JWT)</td><td>List user's own bookings</td></tr>
+  <tr><td>DELETE</td><td><code>/api/booking/:id</code></td><td>User (JWT)</td><td>Cancel own booking</td></tr>
+</table>
+
+<h3>Admin</h3>
+<table>
+  <tr><th>Method</th><th>Endpoint</th><th>Auth</th><th>Description</th></tr>
+  <tr><td>POST</td><td><code>/api/admin/login</code></td><td>Public</td><td>Admin email+password login — issue admin JWT</td></tr>
+  <tr><td>GET</td><td><code>/api/admin/contacts</code></td><td>Admin</td><td>Paginated list of all contacts</td></tr>
+  <tr><td>PATCH</td><td><code>/api/admin/contacts/:id</code></td><td>Admin</td><td>Update contact status</td></tr>
+  <tr><td>DELETE</td><td><code>/api/admin/contacts/:id</code></td><td>Admin</td><td>Delete contact</td></tr>
+  <tr><td>GET</td><td><code>/api/admin/bookings</code></td><td>Admin</td><td>Paginated list of all bookings</td></tr>
+  <tr><td>PATCH</td><td><code>/api/admin/bookings/:id</code></td><td>Admin</td><td>Cancel booking (also calls Calendar API)</td></tr>
+  <tr><td>DELETE</td><td><code>/api/admin/bookings/:id</code></td><td>Admin</td><td>Delete booking record</td></tr>
+</table>
+
+
+<!-- 8. SECURITY -->
+<h2><span class="num">8</span> Security Implementation</h2>
+<table>
+  <tr><th>Layer</th><th>Package</th><th>What It Does</th></tr>
+  <tr><td>HTTP Headers</td><td>helmet</td><td>Sets Content-Security-Policy, X-Frame-Options, etc.</td></tr>
+  <tr><td>Rate Limiting</td><td>express-rate-limit</td><td>100 req/15 min globally; 5 req/15 min on /api/contact; 10 req/15 min on /api/auth</td></tr>
+  <tr><td>CORS</td><td>cors</td><td>Whitelist frontend origin only; credentials: true</td></tr>
+  <tr><td>NoSQL Injection</td><td>express-mongo-sanitize</td><td>Strips $ and . from req.body to prevent MongoDB operator injection</td></tr>
+  <tr><td>XSS</td><td>xss-clean</td><td>Sanitises req.body, req.query, req.params</td></tr>
+  <tr><td>HTTP Pollution</td><td>hpp</td><td>Prevents duplicate query params from bypassing validation</td></tr>
+  <tr><td>Auth Tokens</td><td>jsonwebtoken</td><td>Short-lived JWT (1h) in HttpOnly, Secure, SameSite=Strict cookie</td></tr>
+  <tr><td>Spam</td><td>Google reCAPTCHA v3</td><td>Verified server-side on POST /api/contact</td></tr>
+  <tr><td>Input Validation</td><td>Zod</td><td>Strict schemas on all POST/PATCH bodies</td></tr>
+  <tr><td>Error Handling</td><td>Custom middleware</td><td>Never leaks stack traces in production; structured JSON errors</td></tr>
+</table>
+
+
+<!-- 9. EMAIL NOTIFICATIONS -->
+<h2><span class="num">9</span> Email Notifications</h2>
+<table>
+  <tr><th>Trigger</th><th>Recipient</th><th>Content</th></tr>
+  <tr><td>Contact form submitted</td><td>Admin</td><td>Name, business, service, message, email</td></tr>
+  <tr><td>Contact form submitted</td><td>User</td><td>"We received your enquiry" confirmation + response time promise</td></tr>
+  <tr><td>Booking confirmed</td><td>User</td><td>Date/time, Google Meet link, cancellation instructions</td></tr>
+  <tr><td>Booking confirmed</td><td>Admin</td><td>User details, date/time, Meet link</td></tr>
+  <tr><td>Booking cancelled</td><td>User</td><td>Cancellation confirmation + rebook link</td></tr>
+</table>
+<p>Transport: Gmail SMTP (primary) or Resend.com (recommended for production — better deliverability, no 2FA friction).</p>
+
+
+<!-- 10. ADMIN DASHBOARD -->
+<h2><span class="num">10</span> Admin Dashboard (/admin)</h2>
+<p>A separate, protected React route. Admin logs in with email + password (not Google OAuth — keeps admin access independent of Google accounts). JWT stored in HttpOnly cookie identical to user auth.</p>
+
+<h3>Dashboard Layout</h3>
+<table>
+  <tr><th>View</th><th>Features</th></tr>
+  <tr><td><strong>Login</strong> <code>/admin/login</code></td><td>Email + password form, matches the Books Align design system</td></tr>
+  <tr><td><strong>Dashboard</strong> <code>/admin</code></td><td>Stats cards (total contacts, bookings this week, pending), recent 5 contacts, next 3 bookings</td></tr>
+  <tr><td><strong>Contacts</strong> <code>/admin/contacts</code></td><td>Table: name, email, service, date, status badge, mark-read button, delete</td></tr>
+  <tr><td><strong>Bookings</strong> <code>/admin/bookings</code></td><td>Table: user name, email, date/time, Meet link, status badge, cancel button</td></tr>
+</table>
+
+
+<!-- 11. ENVIRONMENT VARIABLES -->
+<h2><span class="num">11</span> Environment Variables</h2>
+<pre># Server
+PORT=5000
+NODE_ENV=development
+
+# MongoDB
+MONGODB_URI=mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster.mongodb.net/booksalign
+
+# JWT
+JWT_SECRET=your_long_random_secret_here
+JWT_EXPIRES_IN=1h
+
+# Google OAuth
+GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your_client_secret
+GOOGLE_CALLBACK_URL=http://localhost:5000/api/auth/google/callback
+
+# Google Calendar (admin calendar where bookings are created)
+GOOGLE_ADMIN_CALENDAR_ID=admin@booksalign.com.au
+
+# Email (Nodemailer)
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=hello@booksalign.com.au
+EMAIL_PASS=your_app_password
+EMAIL_FROM="Books Align &lt;hello@booksalign.com.au&gt;"
+
+# Admin (dashboard login)
+ADMIN_EMAIL=admin@booksalign.com.au
+ADMIN_PASSWORD_HASH=bcrypt_hash_here
+
+# reCAPTCHA
+RECAPTCHA_SECRET_KEY=your_recaptcha_secret
+
+# Frontend URL (for CORS)
+CLIENT_URL=http://localhost:5173
+
+# Session
+SESSION_SECRET=another_long_random_secret</pre>
+
+
+<!-- 12. REQUIRED ACCOUNTS -->
+<h2><span class="num">12</span> Required Accounts &amp; Services</h2>
+<div class="accounts-grid">
+  <div class="account-card">
+    <strong>MongoDB Atlas</strong>
+    Free M0 cluster sufficient for dev. Upgrade for production. Get connection string for MONGODB_URI.
+  </div>
+  <div class="account-card">
+    <strong>Google Cloud Console</strong>
+    Create OAuth 2.0 credentials. Enable Google Calendar API. Set authorised redirect URIs.
+  </div>
+  <div class="account-card">
+    <strong>Google reCAPTCHA</strong>
+    Register site for reCAPTCHA v3. Get site key (frontend) and secret key (backend).
+  </div>
+  <div class="account-card">
+    <strong>Render</strong>
+    Free tier for backend (Node.js web service). Add all env vars in Render dashboard. Client preview URL.
+  </div>
+  <div class="account-card">
+    <strong>Hostinger</strong>
+    Final production hosting. Frontend as static site or Node.js. Point custom domain here.
+  </div>
+  <div class="account-card">
+    <strong>Gmail / Resend</strong>
+    Gmail: enable App Password for SMTP. Resend.com: better deliverability for transactional email.
+  </div>
+</div>
+
+
+<!-- 13. DEVELOPMENT ROADMAP -->
+<h2><span class="num">13</span> Development Roadmap</h2>
+<div class="roadmap">
+
+  <div class="roadmap-item">
+    <div class="roadmap-circle">1</div>
+    <div class="roadmap-body">
+      <div class="roadmap-title">Backend Bootstrap</div>
+      <div class="roadmap-desc">
+        Set up Express server, connect MongoDB, configure all security middleware (Helmet, CORS, rate limiting, XSS, HPP, mongo-sanitize). Add Winston logging and Morgan HTTP logs. Validate env vars with Zod on startup. Create asyncHandler and ApiError utilities.
+      </div>
+      <div class="roadmap-tags">
+        <span class="rtag rtag-be">Backend</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-circle">2</div>
+    <div class="roadmap-body">
+      <div class="roadmap-title">Contact Module</div>
+      <div class="roadmap-desc">
+        Build Contact Mongoose model, Zod validation schema, POST /api/contact route. Integrate Nodemailer to send confirmation email to user and notification to admin. Add reCAPTCHA server-side verification.
+      </div>
+      <div class="roadmap-tags">
+        <span class="rtag rtag-be">Backend</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-circle">3</div>
+    <div class="roadmap-body">
+      <div class="roadmap-title">Wire Frontend Contact Form</div>
+      <div class="roadmap-desc">
+        Create src/lib/api.js (Axios instance). Replace the setTimeout placeholder in Contact.jsx with a real POST /api/contact call. Add proper error state display. Add reCAPTCHA site key on submit.
+      </div>
+      <div class="roadmap-tags">
+        <span class="rtag rtag-fe">Frontend</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-circle">4</div>
+    <div class="roadmap-body">
+      <div class="roadmap-title">Google OAuth + Auth Module</div>
+      <div class="roadmap-desc">
+        Configure Passport.js Google strategy with calendar.events scope. Build auth routes (google, callback, logout, me). Issue JWT in HttpOnly cookie on successful OAuth. Create JWT verify middleware. Build AuthContext on frontend. Add "Client Login" to Navbar.
+      </div>
+      <div class="roadmap-tags">
+        <span class="rtag rtag-both">Frontend + Backend</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-circle">5</div>
+    <div class="roadmap-body">
+      <div class="roadmap-title">Booking Module + Google Meet</div>
+      <div class="roadmap-desc">
+        Build GET /api/booking/slots (Google Calendar free/busy query). Build POST /api/booking (create Calendar event with conferenceDataVersion:1 to generate Meet link, save to MongoDB, send confirmation emails). Build SlotPicker and BookingConfirmation components. Replace Calendly placeholder in Contact.jsx.
+      </div>
+      <div class="roadmap-tags">
+        <span class="rtag rtag-both">Frontend + Backend</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-circle">6</div>
+    <div class="roadmap-body">
+      <div class="roadmap-title">Admin Module (Backend)</div>
+      <div class="roadmap-desc">
+        Build POST /api/admin/login with bcrypt password comparison and admin JWT. Build all admin CRUD routes for contacts and bookings. Create isAdmin middleware. Add pagination and filtering.
+      </div>
+      <div class="roadmap-tags">
+        <span class="rtag rtag-be">Backend</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-circle">7</div>
+    <div class="roadmap-body">
+      <div class="roadmap-title">Admin Dashboard (Frontend)</div>
+      <div class="roadmap-desc">
+        Add /admin/* routes to App.jsx with ProtectedRoute (admin role check). Build Login, Dashboard, ContactsTable, and BookingsTable pages matching the Books Align design system. Status badge components, pagination controls, confirm-before-delete modals.
+      </div>
+      <div class="roadmap-tags">
+        <span class="rtag rtag-fe">Frontend</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-circle">8</div>
+    <div class="roadmap-body">
+      <div class="roadmap-title">Swagger API Documentation</div>
+      <div class="roadmap-desc">
+        Add JSDoc Swagger comments to all routes. Expose /api/docs endpoint with swagger-ui-express. Document all request bodies, response schemas, and auth requirements.
+      </div>
+      <div class="roadmap-tags">
+        <span class="rtag rtag-be">Backend</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-circle">9</div>
+    <div class="roadmap-body">
+      <div class="roadmap-title">Deploy to Render (Client Preview)</div>
+      <div class="roadmap-desc">
+        Configure Render web service for backend (build command: npm install, start: node server.js). Add all environment variables in Render dashboard. Update GOOGLE_CALLBACK_URL and CLIENT_URL to Render/Vercel URLs. Build and deploy frontend as static site. Share preview URL with client.
+      </div>
+      <div class="roadmap-tags">
+        <span class="rtag rtag-deploy">Deploy</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-circle">10</div>
+    <div class="roadmap-body">
+      <div class="roadmap-title">Production Deploy → Hostinger</div>
+      <div class="roadmap-desc">
+        Migrate to Hostinger. Point custom domain. Update all OAuth redirect URIs and CORS origins to production domain. Configure SSL. Final accessibility and performance audit.
+      </div>
+      <div class="roadmap-tags">
+        <span class="rtag rtag-deploy">Deploy</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- FOOTER -->
+<div style="margin-top:48px; padding-top:24px; border-top:1px solid #eee; text-align:center; font-size:11px; color:#999;">
+  Books Align · Confidential Build Plan · Prepared May 2026
+</div>
+
+</body>
+</html>
