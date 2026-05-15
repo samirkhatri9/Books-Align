@@ -8,12 +8,10 @@ const mongoSanitize = require('express-mongo-sanitize')
 const xss = require('xss-clean')
 const hpp = require('hpp')
 const cookieParser = require('cookie-parser')
-const session = require('express-session')
 const morgan = require('morgan')
 const swaggerUi = require('swagger-ui-express')
 
 const connectDB = require('./src/config/db')
-const passport = require('./src/config/passport')
 const logger = require('./src/services/logger.service')
 const { globalLimiter } = require('./src/middleware/ratelimit.middleware')
 const errorMiddleware = require('./src/middleware/error.middleware')
@@ -38,24 +36,6 @@ app.use(
 app.use(express.json({ limit: '10kb' }))
 app.use(express.urlencoded({ extended: true, limit: '10kb' }))
 app.use(cookieParser())
-
-// ── Session (required for Passport OAuth flow) ────────────────────
-app.use(
-  session({
-    secret: env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: env.NODE_ENV === 'production',
-      httpOnly: true,
-      maxAge: 10 * 60 * 1000, // 10 min — only used during OAuth handshake
-    },
-  })
-)
-
-// ── Passport ──────────────────────────────────────────────────────
-app.use(passport.initialize())
-app.use(passport.session())
 
 // ── Sanitization ──────────────────────────────────────────────────
 app.use(mongoSanitize())

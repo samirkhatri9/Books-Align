@@ -5,8 +5,10 @@ const connectDB = async () => {
   const { MONGODB_URI } = require('./env')
 
   try {
+    
     const conn = await mongoose.connect(MONGODB_URI)
     logger.info(`MongoDB connected: ${conn.connection.host}`)
+    console.log("Mongo db connected successfully.")
   } catch (err) {
     logger.error(`MongoDB connection error: ${err.message}`)
     if (process.env.NODE_ENV === 'production') process.exit(1)

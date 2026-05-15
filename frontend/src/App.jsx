@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
+import ChatWidget from './components/ChatWidget'
 import Home from './pages/Home'
 import Services from './pages/Services'
 import WhyUs from './pages/WhyUs'
@@ -20,6 +21,7 @@ export default function App() {
           </Routes>
         </main>
         <Footer />
+        <ChatWidget />
       </div>
     </BrowserRouter>
   )

@@ -70,7 +70,7 @@ const sendContactNotification = async ({ name, email, businessName, service, mes
   })
 }
 
-const sendBookingConfirmation = async ({ name, email, startTime, meetLink }) => {
+const sendBookingConfirmation = async ({ name, email, startTime }) => {
   const formatted = new Date(startTime).toLocaleString('en-AU', {
     timeZone: 'Australia/Sydney',
     dateStyle: 'full',
@@ -87,9 +87,6 @@ const sendBookingConfirmation = async ({ name, email, startTime, meetLink }) => 
         <div style="background:#20303f;color:#fff;padding:16px 20px;border-radius:8px;margin:16px 0;">
           <p style="font-size:16px;font-weight:700;margin:0;">${formatted} (AEST)</p>
         </div>
-        <a href="${meetLink}" style="display:inline-block;background:#20303f;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700;margin:8px 0;">
-          Join Google Meet
-        </a>
         <p style="color:#74777c;font-size:13px;margin-top:24px;">To cancel, reply to this email or visit your bookings page.</p>
         <hr style="border:none;border-top:1px solid #c4c6cc;margin:24px 0;"/>
         <p style="color:#74777c;font-size:13px;">Books Align · NDIS Specialist Accounting</p>
@@ -98,7 +95,7 @@ const sendBookingConfirmation = async ({ name, email, startTime, meetLink }) => 
   })
 }
 
-const sendBookingNotification = async ({ name, email, startTime, meetLink }) => {
+const sendBookingNotification = async ({ name, email, startTime }) => {
   const formatted = new Date(startTime).toLocaleString('en-AU', {
     timeZone: 'Australia/Sydney',
     dateStyle: 'full',
@@ -115,7 +112,6 @@ const sendBookingNotification = async ({ name, email, startTime, meetLink }) => 
           <tr><td style="padding:8px;font-weight:700;color:#0a1b29;">Client</td><td style="padding:8px;color:#43474c;">${name}</td></tr>
           <tr style="background:#f9f3e6;"><td style="padding:8px;font-weight:700;color:#0a1b29;">Email</td><td style="padding:8px;color:#43474c;">${email}</td></tr>
           <tr><td style="padding:8px;font-weight:700;color:#0a1b29;">Time</td><td style="padding:8px;color:#43474c;">${formatted} (AEST)</td></tr>
-          <tr style="background:#f9f3e6;"><td style="padding:8px;font-weight:700;color:#0a1b29;">Meet Link</td><td style="padding:8px;"><a href="${meetLink}">${meetLink}</a></td></tr>
         </table>
       </div>
     `,
