@@ -4,9 +4,6 @@ const env = require('./src/config/env')
 const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')
-const mongoSanitize = require('express-mongo-sanitize')
-const xss = require('xss-clean')
-const hpp = require('hpp')
 const cookieParser = require('cookie-parser')
 const morgan = require('morgan')
 const swaggerUi = require('swagger-ui-express')
@@ -38,9 +35,6 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' }))
 app.use(cookieParser())
 
 // ── Sanitization ──────────────────────────────────────────────────
-app.use(mongoSanitize())
-app.use(xss())
-app.use(hpp())
 
 // ── HTTP logging ──────────────────────────────────────────────────
 if (env.NODE_ENV !== 'test') {

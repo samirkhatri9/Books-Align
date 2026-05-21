@@ -1,6 +1,9 @@
 const router = require('express').Router()
+const { contactLimiter } = require('../../middleware/ratelimit.middleware')
+const validate = require('../../middleware/validate.middleware')
+const contactSchema = require('./contact.schema')
+const { submitContact } = require('./contact.controller')
 
-// Placeholder — full implementation in contact module step
-router.get('/', (req, res) => res.json({ message: 'Contact routes coming soon' }))
+router.post('/', contactLimiter, validate(contactSchema), submitContact)
 
 module.exports = router

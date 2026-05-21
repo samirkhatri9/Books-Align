@@ -8,6 +8,7 @@ import WhyUs from './pages/WhyUs'
 import Contact from './pages/Contact'
 
 export default function App() {
+  
   return (
     <BrowserRouter>
       <div className="flex flex-col min-h-screen" style={{ background: '#fff9ec' }}>

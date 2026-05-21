@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import api from '../lib/api'
 
 const serviceOptions = [
   'NDIS Plan Management',
@@ -19,6 +20,7 @@ export default function Contact() {
   const [form, setForm] = useState({ name: '', business: '', email: '', phone: '', service: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   function handleChange(e) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -27,10 +29,19 @@ export default function Contact() {
   async function handleSubmit(e) {
     e.preventDefault()
     setLoading(true)
-    // Placeholder — will POST to /api/contact when backend is ready
-    await new Promise((res) => setTimeout(res, 900))
-    setLoading(false)
-    setSubmitted(true)
+    setError('')
+    try {
+      const recaptchaToken = await window.grecaptcha.execute(
+        import.meta.env.VITE_RECAPTCHA_SITE_KEY,
+        { action: 'contact_form' }
+      )
+      await api.post('/api/contact', { ...form, recaptchaToken })
+      setSubmitted(true)
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -73,7 +84,7 @@ export default function Contact() {
                     Thank you for reaching out. We'll be in touch within one business day.
                   </p>
                   <button
-                    onClick={() => { setSubmitted(false); setForm({ name: '', business: '', email: '', phone: '', service: '', message: '' }) }}
+                    onClick={() => { setSubmitted(false); setError(''); setForm({ name: '', business: '', email: '', phone: '', service: '', message: '' }) }}
                     className="mt-2 text-sm font-semibold transition-opacity hover:opacity-70"
                     style={{ color: '#20303f' }}>
                     Send another message
@@ -153,6 +164,10 @@ export default function Contact() {
                       onBlur={e => e.target.style.borderColor = '#c4c6cc'}
                     />
                   </div>
+
+                  {error && (
+                    <p className="text-sm text-red-600 text-center">{error}</p>
+                  )}
 
                   <button
                     type="submit"

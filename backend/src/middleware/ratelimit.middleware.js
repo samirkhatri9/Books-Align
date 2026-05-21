@@ -1,10 +1,11 @@
 const rateLimit = require('express-rate-limit')
 
-const message = (action) => ({
-  success: false,
-  message: `Too many ${action} attempts. Please try again later.`,
-})
-
+const message = (action) => (req, res) => {
+  return res.status(429).json({
+    success: false,
+    message: `Too many ${action} attempts. Please try again later.`,
+  })
+}
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
