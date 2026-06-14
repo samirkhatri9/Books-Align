@@ -1,25 +1,21 @@
 import { Link } from 'react-router-dom'
 
 const regularServices = [
+
   {
     icon: 'receipt_long',
-    title: 'Bookkeeping',
-    desc: 'Accurate, NDIS-compliant bookkeeping that keeps your records clean and audit-ready at all times.',
+    title: 'NDIS Claims',
+    desc: 'Claim file preparation for NDIA participants, invoice management for plan managers, error reclaiming, reconciliation of claims with received amounts, and 100% NDIA compliance.',
   },
   {
-    icon: 'calculate',
-    title: 'BAS & Tax',
-    desc: 'Timely Business Activity Statements and tax lodgements prepared by Australian-trained accountants.',
-  },
-  {
-    icon: 'badge',
-    title: 'Payroll',
-    desc: 'End-to-end payroll processing compliant with NDIS worker classifications and Award conditions.',
+    icon: 'settings',
+    title: 'Operational Services',
+    desc: 'Funding sufficiency calculations, service and tenancy agreement preparation, Centrelink account management, and participant database maintenance.',
   },
   {
     icon: 'bar_chart',
     title: 'Financial Reporting',
-    desc: 'Detailed financial reports tailored to NDIS audit requirements and board-level transparency.',
+    desc: 'Monthly Management Information System (MIS) reports, bank reconciliation, and financial data prepared audit-ready for NDIS compliance.',
   },
 ]
 
@@ -28,17 +24,25 @@ export default function Services() {
     <>
       {/* Hero */}
       <section style={{ background: '#f9f3e6', borderBottom: '1px solid #eee8db' }}>
-        <div className="max-w-[1200px] mx-auto px-16 max-md:px-5 py-16 max-md:py-10 flex flex-col gap-5">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full w-fit text-xs font-bold uppercase tracking-widest"
-            style={{ background: '#d6e2e8', color: '#556065' }}>
-            Specialist NDIS Services
+        <div className="max-w-[1200px] mx-auto px-16 max-md:px-5 py-16 max-md:py-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="flex flex-col gap-5">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full w-fit text-xs font-bold uppercase tracking-widest"
+                style={{ background: '#d6e2e8', color: '#556065' }}>
+                Specialist NDIS Services
+              </div>
+              <h1 className="text-5xl max-md:text-3xl font-bold tracking-tight" style={{ fontFamily: "'Work Sans', sans-serif", color: '#0a1b29' }}>
+                Innovative, high-quality services for disability providers
+              </h1>
+              <p className="text-xl max-md:text-base leading-relaxed" style={{ color: '#43474c' }}>
+                We handle every accounting and operational function that doesn't require physical presence on-site — so you can scale your NDIS business with confidence.
+              </p>
+            </div>
+            <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden max-md:hidden"
+              style={{ background: '#eee8db', border: '1px solid #c4c6cc' }}>
+              <img src="https://res.cloudinary.com/dpnzgxrdb/image/upload/v1781426493/Services_hero_final_guo3zn.jpg" alt="Services Hero" className="w-full h-full object-cover" />
+            </div>
           </div>
-          <h1 className="text-5xl max-md:text-3xl font-bold tracking-tight max-w-2xl" style={{ fontFamily: "'Work Sans', sans-serif", color: '#0a1b29' }}>
-            Expert financial support tailored for your journey
-          </h1>
-          <p className="text-xl max-md:text-base max-w-xl leading-relaxed" style={{ color: '#43474c' }}>
-            Every service we offer is designed around the real-world complexity of running an NDIS provider — with compliance, clarity, and care at the centre.
-          </p>
         </div>
       </section>
 
@@ -62,13 +66,13 @@ export default function Services() {
                   </span>
                 </div>
                 <h2 className="text-2xl font-bold" style={{ fontFamily: "'Work Sans', sans-serif", color: '#0a1b29' }}>
-                  NDIS Plan &amp; Budget Management
+                  NDIS Bookkeeping
                 </h2>
                 <p className="text-base leading-relaxed" style={{ color: '#43474c' }}>
-                  Comprehensive plan management that takes the administrative burden off participants and their families. We handle invoices, track budgets, and ensure every dollar is spent wisely and compliantly.
+                  Comprehensive bookkeeping that keeps your NDIS records clean and audit-ready. We handle daily transactions, reconciliations, GST/PAYG, accounts payable & receivable, and monthly MIS reporting.
                 </p>
                 <ul className="flex flex-col gap-2">
-                  {['Invoice processing & payment', 'Real-time budget tracking', 'Monthly statements', 'NDIS portal liaison'].map((item) => (
+                  {['Daily transaction entry', 'Monthly bank reconciliation & MIS report', 'GST & PAYG reconciliation', 'Accounts payable & receivable'].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm" style={{ color: '#43474c' }}>
                       <span className="material-symbols-outlined text-base" style={{ color: '#20303f', fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                       {item}
@@ -83,12 +87,9 @@ export default function Services() {
               </Link>
             </div>
             {/* Image side */}
-            <div className="aspect-auto min-h-[240px] flex items-center justify-center transition-all"
+            <div className="aspect-auto min-h-[240px] overflow-hidden"
               style={{ background: '#f3ede0' }}>
-              <div className="flex flex-col items-center gap-2 opacity-30">
-                <span className="material-symbols-outlined text-5xl" style={{ color: '#0a1b29' }}>account_balance_wallet</span>
-                <span className="text-xs" style={{ color: '#0a1b29' }}>Service Image</span>
-              </div>
+              <img src="https://res.cloudinary.com/dpnzgxrdb/image/upload/v1781091876/Services_Bookkeeping_F_tmvbfs.jpg" alt="NDIS Bookkeeping" className="w-full h-full object-cover" />
             </div>
           </div>
 
@@ -122,7 +123,7 @@ export default function Services() {
               Not sure which service fits you?
             </h2>
             <p className="text-base mt-2" style={{ color: 'rgba(255,255,255,0.75)' }}>
-              Book a free 30-minute discovery call and we'll find the right fit.
+              Make an inquiry and send us a detailed list of your requirements — we'll tailor a solution that fits your NDIS business perfectly.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">

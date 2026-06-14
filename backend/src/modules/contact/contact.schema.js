@@ -14,7 +14,7 @@ const contactSchema = z.object({
     'Other',
   ]),
   message: z.string().min(10, 'Message must be at least 10 characters').max(2000),
-  recaptchaToken: z.string().min(1, 'reCAPTCHA token is required'),
+  recaptchaToken: z.string().optional().default(''),
 })
 
 module.exports = contactSchema

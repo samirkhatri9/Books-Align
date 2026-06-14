@@ -14,10 +14,17 @@ const submitContact = asyncHandler(async (req, res, next) => {
 
   await Contact.create({ name, business, email, phone, service, message, ip: req.ip })
 
-  sendContactConfirmation({ name, email }).catch(() => {})
-  sendContactNotification({ name, email, businessName: business, service, message }).catch(() => {})
+  sendContactConfirmation({ name, email }).catch(err =>
+    console.error('Contact confirmation email failed:', err.message)
+  )
+  sendContactNotification({ name, email, phone, businessName: business, service, message }).catch(err =>
+    console.error('Contact notification email failed:', err.message)
+  )
 
-  res.status(201).json({ success: true, message: 'Your message has been received. We will be in touch within one business day.' })
+  res.status(201).json({
+    success: true,
+    message: 'Your message has been received. We will be in touch within one business day.',
+  })
 })
 
 module.exports = { submitContact }

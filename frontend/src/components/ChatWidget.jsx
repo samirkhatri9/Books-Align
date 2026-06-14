@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-const WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL
+const WEBHOOK_URL = 'https://dreamsmarketing.app.n8n.cloud/webhook/chatbot'
 
 const WELCOME = "Hi! I'm the Books Align assistant. I can help with NDIS accounting questions, booking a consultation, or anything else about our services."
 
@@ -79,9 +79,11 @@ export default function ChatWidget() {
         body: JSON.stringify({ message: text, sessionId }),
       })
       const data = await res.json()
-      const reply = data.reply ?? data.text ?? data.output ?? data.message ?? 'Sorry, I could not get a response right now.'
+      console.log(data)
+      const reply = data[0].reply ??'Sorry, I could not get a response right now.'
       setMessages(prev => [...prev, { role: 'bot', text: reply }])
     } catch {
+      console.log()
       setMessages(prev => [...prev, { role: 'bot', text: 'Something went wrong. Please try again or contact us directly.' }])
     } finally {
       setLoading(false)

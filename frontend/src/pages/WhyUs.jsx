@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom'
 
 const testimonials = [
   {
-    quote: "Books Align completely transformed how we manage our NDIS finances. Their team is responsive, knowledgeable, and genuinely cares about our participants.",
-    name: 'Sarah Mitchell',
-    title: 'Director, Bright Futures Care',
+    quote: "Books Align provides tailored bookkeeping and accounting services that ensure all our NDIS transactions are compliant and organised. Highly recommend their expertise.",
+    name: 'Charlotte Harris',
+    title: 'NDIS Provider',
   },
   {
-    quote: "The Nepal-based team works to Australian hours and truly understands our compliance requirements. I can't recommend them highly enough.",
-    name: 'James Okoye',
-    title: 'Finance Manager, CareConnect',
+    quote: "They simplify our NDIS financial management by taking care of every detail — from daily bookkeeping to payroll. We can finally focus on our participants.",
+    name: 'Sophia Brown',
+    title: 'Disability Support Manager',
   },
   {
-    quote: "Finally, an accounting firm that speaks NDIS fluently. Our reporting time has been cut in half since switching to Books Align.",
-    name: 'Priya Sharma',
-    title: 'CEO, Inclusive Support Services',
+    quote: "Our NDIS bookkeeping and plan finances are always organised and audit-ready. Books Align keeps us 100% compliant with every NDIA update.",
+    name: 'Charlotte Harris',
+    title: 'Operations Director',
   },
 ]
 
@@ -39,10 +39,10 @@ export default function WhyUs() {
           <div className="flex flex-col gap-6">
             <span className="text-sm font-bold uppercase tracking-widest" style={{ color: '#556065' }}>Why Books Align</span>
             <h1 className="text-5xl max-md:text-3xl font-bold tracking-tight" style={{ fontFamily: "'Work Sans', sans-serif", color: '#0a1b29' }}>
-              The partner you've been looking for
+              Empowering NDIS providers to achieve more
             </h1>
             <p className="text-xl max-md:text-base leading-relaxed" style={{ color: '#43474c' }}>
-              We combine deep NDIS sector knowledge with a passionate, global team to deliver accounting services that are accurate, accessible, and genuinely supportive.
+              Booksalign is a finance company led by a team of Chartered Accountants familiar with Australian business rules and regulations — helping disability service providers scale from 15 to 100+ participants since 2020.
             </p>
             <div className="flex flex-wrap gap-3">
               <div className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold"
@@ -58,18 +58,15 @@ export default function WhyUs() {
 
           {/* Hero image with stat card */}
           <div className="relative">
-            <div className="w-full aspect-[4/3] rounded-2xl flex items-center justify-center"
+            <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden"
               style={{ background: '#f3ede0', border: '1px solid #c4c6cc' }}>
-              <div className="flex flex-col items-center gap-2 opacity-30">
-                <span className="material-symbols-outlined text-5xl" style={{ color: '#0a1b29' }}>groups</span>
-                <span className="text-xs" style={{ color: '#0a1b29' }}>Team Photo</span>
-              </div>
+              <img src="https://res.cloudinary.com/dpnzgxrdb/image/upload/v1781426184/Why_US_hero_final_stcgyt.jpg" alt="Team Photo" className="w-full h-full object-cover" />
             </div>
             {/* Floating stat */}
             <div className="absolute top-4 right-4 p-4 rounded-xl"
               style={{ background: '#20303f', color: '#ffffff' }}>
-              <p className="text-3xl font-bold" style={{ fontFamily: "'Work Sans', sans-serif" }}>98%</p>
-              <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.75)' }}>Client Satisfaction</p>
+              <p className="text-3xl font-bold" style={{ fontFamily: "'Work Sans', sans-serif" }}>100%</p>
+              <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.75)' }}>NDIA Compliance</p>
             </div>
           </div>
         </div>
@@ -96,10 +93,10 @@ export default function WhyUs() {
                 </div>
                 <h3 className="text-xl font-bold" style={{ fontFamily: "'Work Sans', sans-serif", color: '#0a1b29' }}>Global Talent, Local Impact</h3>
                 <p className="text-sm leading-relaxed" style={{ color: '#43474c' }}>
-                  Our Nepal-based team is rigorously trained in Australian tax law, NDIS compliance, and local accounting standards — delivering world-class service at accessible rates.
+                  Our Nepal-based Chartered Accountants are rigorously trained in Australian tax law, NDIS compliance, and local accounting standards — delivering world-class service at cost-effective rates.
                 </p>
                 <ul className="flex flex-col gap-2">
-                  {['24/7 Processing Capability', 'Rigorous Australian Tax Training', 'NDIS Compliance Certified', 'Australian hours coverage'].map((item) => (
+                  {['Australian hours coverage', 'Familiar with Australian business rules & regulations', 'NDIA compliance incorporated into every process', 'Serving providers since 2020'].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm" style={{ color: '#43474c' }}>
                       <span className="material-symbols-outlined text-base" style={{ color: '#20303f', fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                       {item}
@@ -107,12 +104,9 @@ export default function WhyUs() {
                   ))}
                 </ul>
               </div>
-              <div className="min-h-[200px] flex items-center justify-center"
+              <div className="min-h-[200px] overflow-hidden"
                 style={{ background: '#f3ede0' }}>
-                <div className="opacity-30 flex flex-col items-center gap-2">
-                  <span className="material-symbols-outlined text-5xl" style={{ color: '#0a1b29' }}>public</span>
-                  <span className="text-xs" style={{ color: '#0a1b29' }}>Nepal — Australia</span>
-                </div>
+                <img src="https://res.cloudinary.com/dpnzgxrdb/image/upload/v1781089163/Why_US_Nepal-australia_kldodp.jpg" alt="Nepal — Australia" className="w-full h-full object-cover" />
               </div>
             </div>
 
@@ -130,7 +124,7 @@ export default function WhyUs() {
                 NDIS Sector Experts
               </h3>
               <p className="text-sm leading-relaxed z-10" style={{ color: 'rgba(255,255,255,0.75)' }}>
-                10+ years working exclusively with NDIS providers — we understand the pricing, the audits, and the compliance landscape inside out.
+                Serving NDIS providers since 2020, we understand NDIS pricing, NDIA updates, claim compliance, and SCHADS Award payroll inside out.
               </p>
             </div>
 
@@ -170,7 +164,7 @@ export default function WhyUs() {
                   Accessibility-First Values
                 </h3>
                 <p className="text-sm leading-relaxed max-w-xl" style={{ color: '#43474c' }}>
-                  We believe everyone deserves clear, respectful financial communication — regardless of ability, background, or technical knowledge.
+                  We deliver the highest quality of services through collaboration, empowerment, dignity and respect — embracing cultural diversity and an open-minded approach in everything we do.
                 </p>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -192,7 +186,7 @@ export default function WhyUs() {
         <div className="flex flex-col gap-3 mb-10">
           <span className="text-sm font-bold uppercase tracking-widest" style={{ color: '#556065' }}>What clients say</span>
           <h2 className="text-4xl max-md:text-2xl font-bold tracking-tight" style={{ fontFamily: "'Work Sans', sans-serif", color: '#0a1b29' }}>
-            Trusted by NDIS providers
+            What our clients say
           </h2>
         </div>
 
@@ -243,7 +237,7 @@ export default function WhyUs() {
             Let's work together
           </h2>
           <p className="text-lg max-w-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.75)' }}>
-            Book a free 30-minute consultation and discover how Books Align can simplify your NDIS finances.
+            Make an inquiry, send us your requirements, and let's start aligning your books and operations with industry benchmarks.
           </p>
           <div className="flex flex-wrap gap-3 justify-center pt-2">
             <Link to="/contact"

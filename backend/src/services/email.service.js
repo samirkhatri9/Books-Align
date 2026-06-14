@@ -7,9 +7,9 @@ const getTransporter = () => {
   if (transporter) return transporter
 
   transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: Number(process.env.EMAIL_PORT),
-    secure: Number(process.env.EMAIL_PORT) === 465,
+    host: 'smtp.zoho.com',
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -22,7 +22,7 @@ const getTransporter = () => {
 const sendMail = async ({ to, subject, html }) => {
   try {
     const info = await getTransporter().sendMail({
-      from: process.env.EMAIL_FROM,
+      from: `Books Align <${process.env.EMAIL_USER}>`,
       to,
       subject,
       html,
@@ -51,9 +51,9 @@ const sendContactConfirmation = async ({ name, email }) => {
   })
 }
 
-const sendContactNotification = async ({ name, email, businessName, service, message }) => {
+const sendContactNotification = async ({ name, email, businessName, service,phone, message }) => {
   await sendMail({
-    to: process.env.ADMIN_EMAIL,
+    to: process.env.EMAIL_USER,
     subject: `New enquiry from ${name} — ${service}`,
     html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:32px;">
@@ -63,6 +63,7 @@ const sendContactNotification = async ({ name, email, businessName, service, mes
           <tr style="background:#f9f3e6;"><td style="padding:8px;font-weight:700;color:#0a1b29;">Business</td><td style="padding:8px;color:#43474c;">${businessName || '—'}</td></tr>
           <tr><td style="padding:8px;font-weight:700;color:#0a1b29;">Email</td><td style="padding:8px;color:#43474c;">${email}</td></tr>
           <tr style="background:#f9f3e6;"><td style="padding:8px;font-weight:700;color:#0a1b29;">Service</td><td style="padding:8px;color:#43474c;">${service}</td></tr>
+          <tr style="background:#f9f3e6;"><td style="padding:8px;font-weight:700;color:#0a1b29;">Contact no</td><td style="padding:8px;color:#43474c;">${phone}</td></tr>
           <tr><td style="padding:8px;font-weight:700;color:#0a1b29;">Message</td><td style="padding:8px;color:#43474c;">${message}</td></tr>
         </table>
       </div>
@@ -70,7 +71,7 @@ const sendContactNotification = async ({ name, email, businessName, service, mes
   })
 }
 
-const sendBookingConfirmation = async ({ name, email, startTime }) => {
+const sendBookingConfirmation = async ({ name, email, startTime, service }) => {
   const formatted = new Date(startTime).toLocaleString('en-AU', {
     timeZone: 'Australia/Sydney',
     dateStyle: 'full',
@@ -86,16 +87,17 @@ const sendBookingConfirmation = async ({ name, email, startTime }) => {
         <p style="color:#43474c;line-height:1.7;">Your 30-minute discovery call is scheduled for:</p>
         <div style="background:#20303f;color:#fff;padding:16px 20px;border-radius:8px;margin:16px 0;">
           <p style="font-size:16px;font-weight:700;margin:0;">${formatted} (AEST)</p>
+          ${service ? `<p style="font-size:13px;opacity:0.75;margin:6px 0 0;">Topic: ${service}</p>` : ''}
         </div>
-        <p style="color:#74777c;font-size:13px;margin-top:24px;">To cancel, reply to this email or visit your bookings page.</p>
+        <p style="color:#74777c;font-size:13px;margin-top:24px;">To cancel or reschedule, simply reply to this email.</p>
         <hr style="border:none;border-top:1px solid #c4c6cc;margin:24px 0;"/>
-        <p style="color:#74777c;font-size:13px;">Books Align · NDIS Specialist Accounting</p>
+        <p style="color:#74777c;font-size:13px;">Books Align · NDIS Specialist Accounting · Kathmandu, Nepal</p>
       </div>
     `,
   })
 }
 
-const sendBookingNotification = async ({ name, email, startTime }) => {
+const sendBookingNotification = async ({ name, email, phone, businessName, service, startTime }) => {
   const formatted = new Date(startTime).toLocaleString('en-AU', {
     timeZone: 'Australia/Sydney',
     dateStyle: 'full',
@@ -103,15 +105,18 @@ const sendBookingNotification = async ({ name, email, startTime }) => {
   })
 
   await sendMail({
-    to: process.env.ADMIN_EMAIL,
+    to: process.env.EMAIL_USER,
     subject: `New booking: ${name} — ${formatted}`,
     html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:32px;">
-        <h2 style="color:#0a1b29;">New Booking</h2>
+        <h2 style="color:#0a1b29;">New Discovery Call Booking</h2>
         <table style="width:100%;border-collapse:collapse;">
-          <tr><td style="padding:8px;font-weight:700;color:#0a1b29;">Client</td><td style="padding:8px;color:#43474c;">${name}</td></tr>
+          <tr><td style="padding:8px;font-weight:700;color:#0a1b29;">Name</td><td style="padding:8px;color:#43474c;">${name}</td></tr>
           <tr style="background:#f9f3e6;"><td style="padding:8px;font-weight:700;color:#0a1b29;">Email</td><td style="padding:8px;color:#43474c;">${email}</td></tr>
-          <tr><td style="padding:8px;font-weight:700;color:#0a1b29;">Time</td><td style="padding:8px;color:#43474c;">${formatted} (AEST)</td></tr>
+          <tr><td style="padding:8px;font-weight:700;color:#0a1b29;">Phone</td><td style="padding:8px;color:#43474c;">${phone || '—'}</td></tr>
+          <tr style="background:#f9f3e6;"><td style="padding:8px;font-weight:700;color:#0a1b29;">Business</td><td style="padding:8px;color:#43474c;">${businessName || '—'}</td></tr>
+          <tr><td style="padding:8px;font-weight:700;color:#0a1b29;">Service</td><td style="padding:8px;color:#43474c;">${service || '—'}</td></tr>
+          <tr style="background:#f9f3e6;"><td style="padding:8px;font-weight:700;color:#0a1b29;">Time</td><td style="padding:8px;color:#43474c;">${formatted} (AEST)</td></tr>
         </table>
       </div>
     `,

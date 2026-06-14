@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 
 const navLinks = [
@@ -10,18 +10,36 @@ const navLinks = [
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [visible, setVisible] = useState(true)
+  const lastY = useRef(0)
+
+  useEffect(() => {
+    const onScroll = () => {
+      const currentY = window.scrollY
+      setVisible(currentY < lastY.current || currentY < 10)
+      lastY.current = currentY
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
-    <header className="sticky top-0 z-50 w-full" style={{ background: '#f1ebde', borderBottom: '1px solid #c4c6cc' }}>
+    <header
+      className="sticky top-0 z-50 w-full transition-transform duration-300"
+      style={{
+        background: '#f1ebde',
+        borderBottom: '1px solid #c4c6cc',
+        transform: visible ? 'translateY(0)' : 'translateY(-100%)',
+      }}
+    >
       <div className="max-w-[1200px] mx-auto px-16 max-md:px-5 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 no-underline">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#0a1b29' }}>
-            <span className="material-symbols-outlined text-white text-lg">auto_stories</span>
-          </div>
-          <span className="font-bold text-xl tracking-tight" style={{ fontFamily: "'Work Sans', sans-serif", color: '#0a1b29' }}>
-            Books Align
-          </span>
+        <Link to="/" className="flex items-center no-underline">
+          <img
+            src="https://res.cloudinary.com/dpnzgxrdb/image/upload/v1780376678/BooksAlign_Full_ymqoaz.svg"
+            alt="Books Align"
+            className="h-50 w-auto"
+          />
         </Link>
 
         {/* Desktop Nav */}

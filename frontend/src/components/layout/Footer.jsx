@@ -7,14 +7,16 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
           <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.15)' }}>
-                <span className="material-symbols-outlined text-white text-lg">auto_stories</span>
-              </div>
-              <span className="font-bold text-lg" style={{ fontFamily: "'Work Sans', sans-serif" }}>Books Align</span>
+            <div className="flex items-center overflow-hidden">
+              <img
+                src="https://res.cloudinary.com/dpnzgxrdb/image/upload/v1780376678/BooksAlign_Full_ymqoaz.svg"
+                alt="Books Align"
+                className="h-50 w-auto overflow-hidden"
+                style={{ filter: 'brightness(0) invert(1)' }}
+              />
             </div>
             <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.7)' }}>
-              NDIS-specialist accounting firm connecting Nepal-based talent with Australian disability healthcare providers.
+              Providing innovative, high-quality bookkeeping and operational services to disability service providers — aligning your accounts and operations with industry benchmarks since 2020.
             </p>
             <div className="flex gap-3">
               {['share', 'groups'].map((icon) => (
@@ -74,7 +76,8 @@ export default function Footer() {
                 Kathmandu, Nepal · Australia
               </p>
               <p className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                ABN: XX XXX XXX XXX
+                <span className="material-symbols-outlined text-sm mr-1">phone</span>
+                +977 9802349038
               </p>
             </div>
           </div>
@@ -82,7 +85,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-10 pt-6 text-center text-xs" style={{ borderTop: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)' }}>
-          © 2024 Books Align. All rights reserved.
+          © 2026 Books Align. All rights reserved.
         </div>
       </div>
     </footer>
