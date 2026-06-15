@@ -11,9 +11,6 @@ backend/.env
 logs/
 *.log
 
-# Build output
-frontend/dist/
-frontend/build/
 
 # OS
 .DS_Store
